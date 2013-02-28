@@ -8,7 +8,7 @@ export TEST=${3:-"LIVE"}
 
 export APPLICATIONS_PATH="/Applications"
 export FILEBOT_APP="${APPLICATIONS_PATH}/FileBot.app/Contents/MacOS/filebot"
-export ACTION="-rename --action test -get-subtitles --lang en"
+# export ACTION="-rename --action test -get-subtitles --lang en"
 export ACTION="-rename --action copy --lang en"
 export MIN_MOVIE_SIZE=2147483648
 export MIN_MOVIE_DURATION=5400000
@@ -65,10 +65,11 @@ function analyze_file() {
   echo "It's a Movie!" >> $LOGFILE
 
   export OUTPUT="--output ${OUTPUT_BASEDIR}/Movies"
-  export DB="--db TheMovieDB"
+  export DB="--db IMDb"
   export FORMAT="{n} ({y})"
   export QUERY=`basename "${FILE}" | cut -d . -f1`
-  
+  export QUERY=""
+
  else
   echo "It's a TV Show!" >> $LOGFILE
 
@@ -93,17 +94,6 @@ function analyze_file() {
  fi
 }
 
-if [ -d "${TR_TORRENT_FILE}" ]; then
- echo "It's a [D]irectory!"  >> $LOGFILE
- cd "${TR_TORRENT_FILE}"
- for FILE in *; do
-  analyze_file
- done
- cd -
-else
- cd "${TR_TORRENT_DIR}"
- FILE="${TR_TORRENT_FILE}"
+find "${TR_TORRENT_FILE}" -type f | while read FILE; do
  analyze_file
- cd -
-fi
-
+done

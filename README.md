@@ -23,7 +23,7 @@ These tests are:
 
 Any mediafile with a duration longer than 90 minutes will be considered automatically as a movie.
 
-In case of a shorter duration, the aspect ratio, frame rate and file size will be analyzed and in case of positive match of at least 2 of tests, the file will be considered a movie aswell. Otherwise, the file will be processed as tv show. 
+In case of a shorter duration, the aspect ratio, frame rate and file size will be analyzed and in case of positive match of at least 2 of these tests, the file will be considered a movie aswell. Otherwise, the file will be processed as tv show. 
 
 The positive match occurs when: 
 * aspect ratio is not 4:3 or 16:9
@@ -50,7 +50,7 @@ More information related this syntaxis can be found at:
 * filebot-cli (http://filebot.sourceforge.net)
 
 ### How to use
-./transmit.sh <path_to_file> <file> [TEST]
+./transmit.sh <<path_to_file>> <<file>> [TEST]
 
 ### Example
 ./transmit.sh /Users/daniel/Downloads/Transmission drive.mkv

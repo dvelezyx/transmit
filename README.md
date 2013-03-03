@@ -50,7 +50,7 @@ More information related this syntaxis can be found at:
 * filebot-cli (http://filebot.sourceforge.net)
 
 ### How to use
-./transmit.sh <<path_to_file>> <<file>> [TEST]
+./transmit.sh path_to_file_or_directory file_or_directory [TEST]
 
 ### Example
 ./transmit.sh /Users/daniel/Downloads/Transmission drive.mkv

@@ -17,14 +17,14 @@ export TR_TORRENT_DIR="${1:-$TR_TORRENT_DIR}"
 export TR_TORRENT_NAME="${2:-$TR_TORRENT_NAME}"
 export TR_TORRENT_FILE="${TR_TORRENT_DIR}/${TR_TORRENT_NAME}"
 
-export APPLICATIONS_PATH="/Users/${USER}/Applications"
-export MEDIAINFO="/usr/local/bin/MEDIAINFO"
+export APPLICATIONS_PATH="/Applications"
+export MEDIAINFO="/usr/local/bin/mediainfo"
 export MIN_MOVIE_DURATION="5400000"
 export LOGFILE="/tmp/transmit.log"
 
 export FILEBOT_APP="${APPLICATIONS_PATH}/FileBot.app/Contents/MacOS/filebot.sh"
-export ACTION="-rename --action keeplink --lang en --conflict skip"
-export DB="${3:-TheTVDB}"
+export ACTION="-rename --action ${3:-"keeplink"} --lang en --conflict skip"
+export DB="${4:-TheTVDB}"
 export FORMAT="TV/{n}/{s.pad(2)}x/{n} - {s}x{e.pad(2)} - {t}"
 export OUTPUT="/Volumes/My Passport Studio"
 
@@ -44,7 +44,13 @@ function format_time() {
 
 function analyze_file() {
 
+ # echo "analyze_file" "${FILE}"  >> $LOGFILE
+
  DURATION=`$MEDIAINFO "--Inform=Video;%Duration%" "${FILE}"`
+ 
+ #DURATION=`$MEDIAINFO "--Inform=General;%Duration%" "${FILE}"`
+
+ # echo "Duration: ${DURATION}"   >> $LOGFILE
 
  if [ ${DURATION:-0} -gt 0 ] ; then
  
@@ -53,8 +59,8 @@ function analyze_file() {
    # echo "It's a Movie!" >> $LOGFILE
    # echo "DURATION: `format_time ${DURATION}`" >> $LOGFILE
   
-   export DB="TheMovieDB"
-   export FORMAT="Movies/{n} ({y})"
+   DB="TheMovieDB"
+   FORMAT="Movies/{n} ({y})"
   
   fi
 
@@ -67,7 +73,7 @@ function analyze_file() {
 
 clear
 
-# echo "TR_TORRENT_DIR:  $TR_TORRENT_DIR"  >> $LOGFILE
-# echo "TR_TORRENT_NAME: $TR_TORRENT_NAME" >> $LOGFILE
+# echo "TR_TORRENT_DIR:  $TR_TORRENT_DIR"  >> $LOGFILE
+# echo "TR_TORRENT_NAME: $TR_TORRENT_NAME" >> $LOGFILE
 
 find "${TR_TORRENT_FILE}" -type f | while read FILE; do analyze_file; done
